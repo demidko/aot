@@ -13,12 +13,12 @@ tasks.test {
   useJUnitPlatform()
 }
 tasks.compileJava {
-  sourceCompatibility = "16"
-  targetCompatibility = "16"
+  sourceCompatibility = JavaVersion.VERSION_16.toString()
+  targetCompatibility = JavaVersion.VERSION_16.toString()
 }
 tasks.compileTestJava {
-  sourceCompatibility = "16"
-  targetCompatibility = "16"
+  sourceCompatibility = JavaVersion.VERSION_16.toString()
+  targetCompatibility = JavaVersion.VERSION_16.toString()
 }
 publishing {
   publications {
