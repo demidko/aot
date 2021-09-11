@@ -60,47 +60,47 @@ class ImmutableWordList implements List<Word> {
 
   @Override
   public <T> T[] toArray(T[] ts) {
-    return (T[]) arr;
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public boolean add(Word word) {
-    throw new IllegalStateException("Not implemented");
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public boolean remove(Object o) {
-    throw new IllegalStateException("Not implemented");
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public boolean containsAll(Collection<?> collection) {
-    throw new IllegalStateException("Not implemented");
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public boolean addAll(Collection<? extends Word> collection) {
-    throw new IllegalStateException("Not implemented");
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public boolean addAll(int i, Collection<? extends Word> collection) {
-    throw new IllegalStateException("Not implemented");
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public boolean removeAll(Collection<?> collection) {
-    throw new IllegalStateException("Not implemented");
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public boolean retainAll(Collection<?> collection) {
-    throw new IllegalStateException("Not implemented");
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public void clear() {
-    throw new IllegalStateException("Not implemented");
+    throw new UnsupportedOperationException();
   }
 
   @Override
@@ -110,17 +110,17 @@ class ImmutableWordList implements List<Word> {
 
   @Override
   public Word set(int i, Word word) {
-    throw new IllegalStateException("Not implemented");
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public void add(int i, Word word) {
-    throw new IllegalStateException("Not implemented");
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public Word remove(int i) {
-    throw new IllegalStateException("Not implemented");
+    throw new UnsupportedOperationException();
   }
 
   @Override
@@ -146,16 +146,16 @@ class ImmutableWordList implements List<Word> {
 
   @Override
   public ListIterator<Word> listIterator() {
-    throw new IllegalStateException("Not implemented");
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public ListIterator<Word> listIterator(int i) {
-    throw new IllegalStateException("Not implemented");
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public List<Word> subList(int i, int i1) {
-    throw new IllegalStateException("Not implemented");
+    throw new UnsupportedOperationException();
   }
 }
