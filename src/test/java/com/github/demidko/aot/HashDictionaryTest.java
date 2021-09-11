@@ -22,7 +22,6 @@ public class HashDictionaryTest {
     }
   }
 
-
   @Test
   public void dictionaryShouldBeAbleToFindExistentWords() throws IOException {
     assertThat(d.lookup("краснеющий"), hasSize(1));
