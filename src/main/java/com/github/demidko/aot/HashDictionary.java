@@ -23,6 +23,7 @@ public class HashDictionary {
   private final Map<Integer, int[]> refs;
 
   public HashDictionary() throws IOException {
+    System.out.println("LOL");
     try (var file = new DataInputStream(new GZIPInputStream(getClass().getResourceAsStream("/mrd.gz")))) {
       allMorphologyTags = readMorph(readBlockFrom(file));
       allFlexionStrings = readStrings(readBlockFrom(file));
