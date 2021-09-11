@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.GZIPInputStream;
 
 public class HashDictionary {
 
@@ -22,7 +23,7 @@ public class HashDictionary {
   private final Map<Integer, int[]> refs;
 
   public HashDictionary() throws IOException {
-    try (DataInputStream file = new DataInputStream(getClass().getResourceAsStream("/MRD.BIN"))) {
+    try (var file = new DataInputStream(new GZIPInputStream(getClass().getResourceAsStream("/mrd.gz")))) {
       allMorphologyTags = readMorph(readBlockFrom(file));
       allFlexionStrings = readStrings(readBlockFrom(file));
       lemmas = readLemmas(readBlockFrom(file));
