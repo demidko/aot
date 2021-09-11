@@ -7,7 +7,7 @@ plugins {
 }
 dependencies {
   testImplementation("org.junit.jupiter:junit-jupiter:5.7.2")
-  implementation("org.hamcrest:hamcrest:2.2")
+  testImplementation("org.hamcrest:hamcrest:2.2")
 }
 tasks.test {
   useJUnitPlatform()
