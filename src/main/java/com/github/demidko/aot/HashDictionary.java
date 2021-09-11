@@ -23,7 +23,7 @@ public class HashDictionary {
   private final Map<Integer, int[]> refs;
 
   public HashDictionary() throws IOException {
-    try (var file = new DataInputStream(new GZIPInputStream(getClass().getResourceAsStream("/mrd.gz")))) {
+    try (var Data = new DataInputStream(new GZIPInputStream(getClass().getResourceAsStream("/mrd.gz")))) {
       allMorphologyTags = readMorph(readBlockFrom(file));
       allFlexionStrings = readStrings(readBlockFrom(file));
       lemmas = readLemmas(readBlockFrom(file));

@@ -12,14 +12,6 @@ dependencies {
 tasks.test {
   useJUnitPlatform()
 }
-tasks.compileJava {
-  sourceCompatibility = JavaVersion.VERSION_16.toString()
-  targetCompatibility = JavaVersion.VERSION_16.toString()
-}
-tasks.compileTestJava {
-  sourceCompatibility = JavaVersion.VERSION_16.toString()
-  targetCompatibility = JavaVersion.VERSION_16.toString()
-}
 publishing {
   publications {
     create<MavenPublication>("library") {
