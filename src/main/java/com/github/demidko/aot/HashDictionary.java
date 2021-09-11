@@ -45,17 +45,6 @@ public class HashDictionary {
   /// Здесь начинается высокоуровневое API ///
   ///               ***                    ///
 
-  private List<Word> filterLemmas(int[] refs, String query) {
-    Word[] res = new Word[refs.length];
-    int i = -1;
-    for (int ref : refs) {
-      if (!isCollision(lemmas[ref], query)) {
-        res[++i] = new Word(lemmas[ref]);
-      }
-    }
-    return new ImmutableWordList(res, i + 1);
-  }
-
   /**
    * @param query слово в любой корректной форме
    * @return Набор объектов вида {исходная форма (1ое лицо ед. число) + характеристики исходной формы + всевозможные
@@ -65,7 +54,17 @@ public class HashDictionary {
   public List<Word> lookup(String query) {
     query = query.toLowerCase().replace('ё', 'е');
     int[] refsToLemmas = refs.get(query.hashCode());
-    return refsToLemmas == null ? emptyList() : filterLemmas(refsToLemmas, query);
+    if (refsToLemmas == null) {
+      return emptyList();
+    }
+    Word[] res = new Word[refsToLemmas.length];
+    int i = -1;
+    for (int ref : refsToLemmas) {
+      if (!isCollision(lemmas[ref], query)) {
+        res[++i] = new Word(lemmas[ref]);
+      }
+    }
+    return new ImmutableWordList(res, i + 1);
   }
 
   ///                  ***                        ///

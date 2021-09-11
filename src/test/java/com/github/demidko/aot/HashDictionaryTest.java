@@ -27,7 +27,6 @@ public class HashDictionaryTest {
     assertThat(d.lookup("краснеющий"), hasSize(1));
     assertThat(d.lookup("дорога"), hasSize(2));
     assertThat(d.lookup("клавиатура"), hasSize(1));
-
     //low level
     assertThat(d.lookup("краснеющий"), hasSize(1));
     assertThat(d.lookup("дорога"), hasSize(2));
@@ -52,9 +51,7 @@ public class HashDictionaryTest {
       .stream()
       .map(w -> w.getLemma().toString())
       .collect(toList());
-
     assertThat(lemmas, containsInAnyOrder("германия", "германий"));
-
     // low level
     assertThat(collectNormsLowLevel(d.lookupForLemmasIds("Германия")),
       containsInAnyOrder("германия", "германий"));
@@ -66,7 +63,6 @@ public class HashDictionaryTest {
     assertThat(d.lookup("люди"), hasSize(1));
     assertThat(d.lookup("ребёнок"), hasSize(1));
     assertThat(d.lookup("дети"), hasSize(1));
-
     //low level
     assertThat(d.lookupForLemmasIds("человек"), hasSize(1));
     assertThat(d.lookupForLemmasIds("люди"), hasSize(1));
@@ -102,7 +98,6 @@ public class HashDictionaryTest {
   @Test
   public void regression1() {
     assertThat(collectNorms(d.lookup("замок")), hasItems("замок", "замокнуть"));
-
     //low level
     assertThat(collectNormsLowLevel(d.lookupForLemmasIds("замок")), hasItems("замок", "замокнуть"));
   }
@@ -113,7 +108,6 @@ public class HashDictionaryTest {
     // low level
     assertThat(d.lookupForLemmasIds("и"), hasSize(2));
   }
-
 
   @Test
   public void regression2() throws IOException {
@@ -127,7 +121,6 @@ public class HashDictionaryTest {
     List<String> norms = collectNorms(d.lookup("люди"));
     assertThat(norms, hasSize(1));
     assertThat(norms, hasItems("человек"));
-
     // low level
     List<String> norms2 = collectNormsLowLevel(d.lookupForLemmasIds("люди"));
     assertThat(norms, hasSize(1));
