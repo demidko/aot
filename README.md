@@ -19,19 +19,29 @@ closed-source зависимостей, упрощенная для сборки
 Продемонстрируем работу словаря на примере смысловой коллизии:
 
 ```java
-// на создание словаря уходит несколько секунд,
-// поэтому, лучше иметь один экземпляр на все время работы
-var d=new com.github.demidko.aot.HashDictionary();
-// получаем все наборы смыслов по интересующему нас слову
-    for(var word:d.lookup("замок")){
-    // проходим по всем возможным словоформам каждого смысла
-    for(var flex:word.getFlexions()){
-    // и выводим их характеристики
-    System.out.print(flex.toString()+flex.getTags());
-    System.out.print(' ');
+class Example {
+
+  public static void main(String[] args) {
+    
+    // на создание словаря уходит несколько секунд,
+    // поэтому, лучше иметь один экземпляр на все время работы
+    var d = new com.github.demidko.aot.HashDictionary();
+    
+    // получаем все наборы смыслов по интересующему нас слову
+    for (var word : d.lookup("замок")) {
+      
+      // проходим по всем возможным словоформам каждого смысла
+      for (var flex : word.getFlexions()) {
+        
+        // и выводим их характеристики
+        System.out.print(flex.toString() + flex.getTags());
+        System.out.print(' ');
+      }
+      System.out.println("\n");
     }
-    System.out.println("\n");
-    }
+  }
+}
+
 ```
 
 Получим что-то вроде
