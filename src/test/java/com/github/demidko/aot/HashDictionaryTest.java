@@ -123,7 +123,7 @@ public class HashDictionaryTest {
     assertThat(norms, hasItems("человек"));
     // low level
     List<String> norms2 = collectNormsLowLevel(d.lookupForLemmasIds("люди"));
-    assertThat(norms, hasSize(1));
-    assertThat(norms, hasItems("человек"));
+    assertThat(norms2, hasSize(1));
+    assertThat(norms2, hasItems("человек"));
   }
 }

@@ -8,9 +8,9 @@ import java.util.ListIterator;
 /**
  * Чтобы не копировать лишний раз массивы
  */
-class ImmutableWordList implements List<Word> {
+class ImmutableList<T> implements List<T> {
 
-  class Iter implements Iterator<Word> {
+  class Iter implements Iterator<T> {
 
     private int i = -1;
 
@@ -20,15 +20,15 @@ class ImmutableWordList implements List<Word> {
     }
 
     @Override
-    public Word next() {
+    public T next() {
       return arr[++i];
     }
   }
 
-  private final Word[] arr;
+  private final T[] arr;
   private final int len;
 
-  ImmutableWordList(Word[] arr, int len) {
+  ImmutableList(T[] arr, int len) {
     this.arr = arr;
     this.len = len;
   }
@@ -49,7 +49,7 @@ class ImmutableWordList implements List<Word> {
   }
 
   @Override
-  public Iterator<Word> iterator() {
+  public Iterator<T> iterator() {
     return new Iter();
   }
 
@@ -59,12 +59,12 @@ class ImmutableWordList implements List<Word> {
   }
 
   @Override
-  public <T> T[] toArray(T[] ts) {
+  public <K> K[] toArray(K[] ts) {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public boolean add(Word word) {
+  public boolean add(T T) {
     throw new UnsupportedOperationException();
   }
 
@@ -79,12 +79,12 @@ class ImmutableWordList implements List<Word> {
   }
 
   @Override
-  public boolean addAll(Collection<? extends Word> collection) {
+  public boolean addAll(Collection<? extends T> collection) {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public boolean addAll(int i, Collection<? extends Word> collection) {
+  public boolean addAll(int i, Collection<? extends T> collection) {
     throw new UnsupportedOperationException();
   }
 
@@ -104,22 +104,22 @@ class ImmutableWordList implements List<Word> {
   }
 
   @Override
-  public Word get(int i) {
+  public T get(int i) {
     return arr[i];
   }
 
   @Override
-  public Word set(int i, Word word) {
+  public T set(int i, T T) {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public void add(int i, Word word) {
+  public void add(int i, T T) {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public Word remove(int i) {
+  public T remove(int i) {
     throw new UnsupportedOperationException();
   }
 
@@ -145,17 +145,17 @@ class ImmutableWordList implements List<Word> {
   }
 
   @Override
-  public ListIterator<Word> listIterator() {
+  public ListIterator<T> listIterator() {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public ListIterator<Word> listIterator(int i) {
+  public ListIterator<T> listIterator(int i) {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public List<Word> subList(int i, int i1) {
+  public List<T> subList(int i, int i1) {
     throw new UnsupportedOperationException();
   }
 }

@@ -5,6 +5,7 @@ import static com.github.demidko.aot.Reader.readLemmas;
 import static com.github.demidko.aot.Reader.readMorph;
 import static com.github.demidko.aot.Reader.readRefs;
 import static com.github.demidko.aot.Reader.readStrings;
+import static java.util.AbstractMap.SimpleImmutableEntry;
 import static java.util.Collections.emptyList;
 
 import java.io.DataInputStream;
@@ -12,6 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.zip.GZIPInputStream;
 
 public class HashDictionary {
@@ -45,6 +47,17 @@ public class HashDictionary {
   /// Здесь начинается высокоуровневое API ///
   ///               ***                    ///
 
+  private List<Word> filterLemmas(int[] refs, String query) {
+    Word[] res = new Word[refs.length];
+    int i = -1;
+    for (int ref : refs) {
+      if (!isCollision(lemmas[ref], query)) {
+        res[++i] = new Word(lemmas[ref]);
+      }
+    }
+    return new ImmutableList<>(res, i + 1);
+  }
+
   /**
    * @param query слово в любой корректной форме
    * @return Набор объектов вида {исходная форма (1ое лицо ед. число) + характеристики исходной формы + всевозможные
@@ -54,17 +67,7 @@ public class HashDictionary {
   public List<Word> lookup(String query) {
     query = query.toLowerCase().replace('ё', 'е');
     int[] refsToLemmas = refs.get(query.hashCode());
-    if (refsToLemmas == null) {
-      return emptyList();
-    }
-    Word[] res = new Word[refsToLemmas.length];
-    int i = -1;
-    for (int ref : refsToLemmas) {
-      if (!isCollision(lemmas[ref], query)) {
-        res[++i] = new Word(lemmas[ref]);
-      }
-    }
-    return new ImmutableWordList(res, i + 1);
+    return refsToLemmas == null ? emptyList() : filterLemmas(refsToLemmas, query);
   }
 
   ///                  ***                        ///
@@ -131,5 +134,47 @@ public class HashDictionary {
       }
     }
     return res;
+  }
+
+  ///                               ***                                               ///
+  /// Отсюда и ниже начинаются обновления низкоуровневого API от 2021-09-19,          ///
+  //  внедренные для обеспечения поддержки нового высокоуровневого API (WordMeaning). ///
+  ///                               ***                                               ///
+
+  /**
+   * Поиск смыслов слова в словаре
+   *
+   * @param query искомое слово
+   * @return набор пар вида (id леммы, id флексии), каждая из которых представляет вариант смысла слова. При помощи
+   * {@link HashDictionary#getFlexionString(int, int)} можно восстановить исходную форму искомого слова из любого
+   * смысла. При помощи {@link HashDictionary#getLemmaString(int)} можно получить лемму для каждого смысла. При помощи
+   * {@link HashDictionary#getFlexionTags(int, int)} можно получить морфологию для каждого смысла. При помощи {@link
+   * HashDictionary#getLemmaTags(int)} можно получить морфологию для каждой леммы каждого смысла. При помощи {@link
+   * HashDictionary#fexionsSize(int)} можно получить количество всех слов каждой леммы.
+   */
+  public List<Entry<Integer, Integer>> lookupForFlexions(String query) {
+    query = query.toLowerCase().replace('ё', 'е');
+    int[] ids = refs.get(query.hashCode());
+    return ids == null ? emptyList() : filterLemmasAndFlexionsIds(ids, query);
+  }
+
+  private List<Entry<Integer, Integer>> filterLemmasAndFlexionsIds(int[] refs, String query) {
+    List<Entry<Integer, Integer>> res = new ArrayList<>();
+    for (int ref : refs) {
+      int flexionId = getFlexionId(lemmas[ref], query);
+      if (flexionId != -1) {
+        res.add(new SimpleImmutableEntry<>(ref, flexionId));
+      }
+    }
+    return res;
+  }
+
+  private int getFlexionId(int[] lemma, String query) {
+    for (int i = 0; i < lemma.length; i += 2) {
+      if (allFlexionStrings[lemma[i]].equals(query)) {
+        return i;
+      }
+    }
+    return -1;
   }
 }
