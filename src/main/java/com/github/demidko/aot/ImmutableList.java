@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 /**
- * Чтобы не копировать лишний раз массивы
+ * Класс позволяет создать список меньшего размера, на основе массива большего размера, без копирования.
  */
 class ImmutableList<T> implements List<T> {
 

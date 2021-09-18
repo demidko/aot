@@ -22,7 +22,9 @@ public class WordformMeaning {
    * нужно использовать {@link WordformMeaning#getDictionary()}.
    */
   private static HashDictionary dictionary;
+
   private final int lemmaId;
+
   private final int flexionIndex;
 
   private WordformMeaning(int lemmaId, int flexionIndex) {
@@ -31,7 +33,19 @@ public class WordformMeaning {
   }
 
   /**
-   * @return Исходная текстовая запись слова (может быть общей с другими смыслами, напр. "замок" и "замок").
+   * @return Уникальный идентификатор, по которому можно восстановить словоформу, даже после перезапуска приложения.
+   * Идентификатор состоит из 48 бит (32 бита индекс леммы, 16 бит смещение трансформации) записанных по порядку в
+   * long.
+   */
+  public long getId() {
+    BitWriter w = new BitWriter();
+    w.write(lemmaId, 4);
+    w.write(flexionIndex, 4);
+    return w.toLong();
+  }
+
+  /**
+   * @return Текстовая запись слова (может быть общей с другими смыслами, напр. "замок" и "замок").
    */
   @Override
   public String toString() {
@@ -80,9 +94,23 @@ public class WordformMeaning {
   }
 
   /**
+   * @param id идентификатор полученный ранее при помощи {@link WordformMeaning#getId()}
+   * @return словоформа смысла
+   */
+  public static WordformMeaning lookupForMeaningById(long id) throws IOException {
+    BitReader reader = new BitReader(id);
+    int lemmaId = reader.readInt();
+    int flexionIndex = reader.readShort();
+    getDictionary();
+    return new WordformMeaning(lemmaId, flexionIndex);
+  }
+
+  /**
+   * Инициализация {@link WordformMeaning#dictionary}
+   *
    * @return словарь лемм и морфологии (низкоуровневое API)
    */
-  private static HashDictionary getDictionary() throws IOException {
+  static HashDictionary getDictionary() throws IOException {
     if (dictionary == null) {
       dictionary = new HashDictionary();
     }

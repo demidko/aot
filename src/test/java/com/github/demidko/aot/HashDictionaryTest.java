@@ -1,5 +1,6 @@
 package com.github.demidko.aot;
 
+import static com.github.demidko.aot.WordformMeaning.getDictionary;
 import static java.util.stream.Collectors.toList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
@@ -12,11 +13,11 @@ import org.junit.jupiter.api.Test;
 
 public class HashDictionaryTest {
 
-  private static HashDictionary d = null;
+  private static HashDictionary d;
 
   static {
     try {
-      d = new HashDictionary();
+      d = getDictionary();
     } catch (IOException e) {
       e.printStackTrace();
     }

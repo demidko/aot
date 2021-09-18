@@ -17,7 +17,7 @@ Java библиотека для быстрого (!) получения лем�
 
 [![](https://jitpack.io/v/demidko/aot.svg)](https://jitpack.io/#demidko/aot)
 
-## Пример
+## Как использовать?
 
 ```java
 import static java.lang.System.out;
@@ -27,15 +27,15 @@ class Example {
 
   public static void main(String[] args) {
     var meanings = lookupForMeanings("люди");
-    
+
     out.println(meanings.size());
-     /* 1 */
+    /* 1 */
 
     out.println(meanings.get(0).getMorphology());
-     /* [С, мр, им, мн] */
+    /* [С, мр, им, мн] */
 
     out.println(meanings.get(0).getLemma());
-     /* человек */
+    /* человек */
 
     for (var t : meanings.get(0).getTransformations()) {
       out.println(t.toString() + " " + t.getMorphology());
@@ -105,7 +105,7 @@ class Example {
 наконец, третий смысл, это вторая лемма, замокнуть (он что сделал? Он замок под дождем). Для нее
 слово замок характеризуется лишь одним набором грамматической информации.
 
-## Источник данных
+## Откуда данные?
 
 Используется словарь бинарной морфологии из
 проекта [aot-binary](https://github.com/demidko/aot-binary).
