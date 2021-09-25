@@ -39,8 +39,8 @@ public class WordformMeaning {
    */
   public long getId() {
     BitWriter w = new BitWriter();
-    w.write(lemmaId, 4);
-    w.write(flexionIndex, 4);
+    w.writeInt(lemmaId);
+    w.writeInt(flexionIndex);
     return w.toLong();
   }
 
@@ -97,10 +97,10 @@ public class WordformMeaning {
    * @param id идентификатор полученный ранее при помощи {@link WordformMeaning#getId()}
    * @return словоформа смысла
    */
-  public static WordformMeaning lookupForMeaningById(long id) throws IOException {
+  public static WordformMeaning lookupForMeaning(long id) throws IOException {
     BitReader reader = new BitReader(id);
     int lemmaId = reader.readInt();
-    int flexionIndex = reader.readShort();
+    int flexionIndex = reader.readInt();
     getDictionary();
     return new WordformMeaning(lemmaId, flexionIndex);
   }
