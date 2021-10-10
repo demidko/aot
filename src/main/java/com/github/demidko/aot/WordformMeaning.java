@@ -1,5 +1,6 @@
 package com.github.demidko.aot;
 
+import static com.github.demidko.aot.PartOfSpeech.partOfSpeech;
 import static java.util.Arrays.asList;
 import static java.util.Objects.hash;
 
@@ -10,23 +11,34 @@ import java.util.Map.Entry;
 
 /**
  * Словоформа одного определенного смысла. Зачем нужна эта абстракция вместо простого слова? Например, у слова "замок"
- * может быть три смысла: 1. Замок как строение. 2. Замок как устройство для запора дверей. 3. Замок, как форма слова
- * "замокнуть", например, "замок под дождем". Данный класс разрешает такие коллизии, позволяя получить исходную форму и
- * морфологические теги, также, при сравнении двух идентичных слофоформ разных смыслов, будет получен отрицательный
- * результат.
+ * может быть три основных смысла: 1. Замок как строение. 2. Замок как устройство для запора дверей. 3. Замок, как форма
+ * слова "замокнуть", например, "замок под дождем". И это мы еще не учли возможную разницу в падежах. Данный класс
+ * разрешает такие коллизии, позволяя получить исходную форму, морфологические теги и часть речи, при сравнении двух
+ * идентичных словоформ разных смыслов, будет получен отрицательный результат.
  */
 public class WordformMeaning {
 
   /**
-   * Словарь морфологии. При вызове из методов экземпляра всегда инициализирован. При вызове из статических методов,
-   * нужно использовать {@link WordformMeaning#getDictionary()}.
+   * Словарь морфологии, низкоуровневый API. При вызове из методов экземпляра всегда инициализирован. При вызове из
+   * статических методов, нужно использовать {@link WordformMeaning#getDictionary()}.
    */
   private static HashDictionary dictionary;
 
+  /**
+   * Идентификатор леммы в {@link HashDictionary#getFlexionString(int, int)}(первый параметр)
+   */
   private final int lemmaId;
 
+  /**
+   * Индекс трансформации леммы в {@link HashDictionary#getFlexionString(int, int)}(второй параметр)
+   */
   private final int flexionIndex;
 
+  /**
+   * @param lemmaId      Идентификатор леммы в {@link HashDictionary#getFlexionString(int, int)}(первый параметр)
+   * @param flexionIndex Индекс трансформации леммы в {@link HashDictionary#getFlexionString(int, int)}(второй
+   *                     параметр)
+   */
   private WordformMeaning(int lemmaId, int flexionIndex) {
     this.lemmaId = lemmaId;
     this.flexionIndex = flexionIndex;
@@ -35,7 +47,7 @@ public class WordformMeaning {
   /**
    * @return Уникальный идентификатор, по которому можно восстановить словоформу, даже после перезапуска приложения.
    * Идентификатор состоит из 48 бит (32 бита индекс леммы, 16 бит смещение трансформации) записанных по порядку в
-   * long.
+   * примитив long.
    */
   public long getId() {
     BitWriter w = new BitWriter();
@@ -45,7 +57,7 @@ public class WordformMeaning {
   }
 
   /**
-   * @return Текстовая запись слова (может быть общей с другими смыслами, напр. "замок" и "замок").
+   * @return Текстовая запись слова в lowercase (может быть общей с другими смыслами, напр. "замок" и "замок")
    */
   @Override
   public String toString() {
@@ -79,10 +91,17 @@ public class WordformMeaning {
   }
 
   /**
+   * @return Часть речи к которой относится это слово, например существительное, глагол, и т. п.
+   */
+  public PartOfSpeech getPartOfSpeech() {
+    return partOfSpeech(getMorphology());
+  }
+
+  /**
    * Метод ищет все возможные значения слова
    *
    * @param w слово в любой форме
-   * @return список смыслов
+   * @return список смыслов включая омонимии
    */
   public static List<WordformMeaning> lookupForMeanings(String w) throws IOException {
     ArrayList<WordformMeaning> result = new ArrayList<>();
@@ -93,6 +112,8 @@ public class WordformMeaning {
   }
 
   /**
+   * Метод для получения словоформы по ее уникальному идентификатору
+   *
    * @param id идентификатор полученный ранее при помощи {@link WordformMeaning#getId()}
    * @return словоформа смысла
    */

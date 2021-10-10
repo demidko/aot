@@ -1,5 +1,6 @@
 package com.github.demidko.aot;
 
+import static com.github.demidko.aot.PartOfSpeech.partOfSpeech;
 import static java.util.Arrays.asList;
 
 import java.util.Arrays;
@@ -22,7 +23,7 @@ public class Flexion {
   Flexion(int source, int tags) {
     this.strIndex = source;
     this.tagsIndex = tags;
-    pos = PartOfSpeech.from(db.allMorphologyTags[tags]);
+    pos = partOfSpeech(db.allMorphologyTags[tags]);
   }
 
   public List<MorphologyTag> getTags() {

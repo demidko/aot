@@ -239,7 +239,7 @@ public enum MorphologyTag {
   /**
    * Краткое причастие
    */
-  BreifComunion("КР_ПРИЧАСТИЕ"),
+  BriefCommunion("КР_ПРИЧАСТИЕ"),
 
   /**
    * Прилагательное (?)
