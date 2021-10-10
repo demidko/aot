@@ -3,7 +3,7 @@ package com.github.demidko.aot;
 /**
  * Класс хранит константы байткода
  */
-public final class Bytecode {
+final class Bytecode {
 
 	public static final byte endOfCompiledLine = 100;
 

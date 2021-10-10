@@ -16,6 +16,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.zip.GZIPInputStream;
 
+/**
+ * @deprecated лучше используйте высокоуровневый API из {@link WordformMeaning}
+ */
+@Deprecated
 public class HashDictionary {
 
   final MorphologyTag[][] allMorphologyTags;
@@ -152,29 +156,21 @@ public class HashDictionary {
    * HashDictionary#getLemmaTags(int)} можно получить морфологию для каждой леммы каждого смысла. При помощи {@link
    * HashDictionary#fexionsSize(int)} можно получить количество всех слов каждой леммы.
    */
-  public List<Entry<Integer, Integer>> lookupForFlexions(String query) {
+  List<Entry<Integer, Integer>> lookupForFlexions(String query) {
     query = query.toLowerCase().replace('ё', 'е');
     int[] ids = refs.get(query.hashCode());
-    return ids == null ? emptyList() : filterLemmasAndFlexionsIds(ids, query);
+    return ids == null ? emptyList() : filterLemmasAndFlexionIds(ids, query);
   }
 
-  private List<Entry<Integer, Integer>> filterLemmasAndFlexionsIds(int[] refs, String query) {
+  private List<Entry<Integer, Integer>> filterLemmasAndFlexionIds(int[] refs, String query) {
     List<Entry<Integer, Integer>> res = new ArrayList<>();
-    for (int ref : refs) {
-      int flexionId = getFlexionId(lemmas[ref], query);
-      if (flexionId != -1) {
-        res.add(new SimpleImmutableEntry<>(ref, flexionId));
+    for (int lemmaId : refs) {
+      for (int flexionIdx = 0; flexionIdx < fexionsSize(lemmaId); ++flexionIdx) {
+        if (getFlexionString(lemmaId, flexionIdx).equals(query)) {
+          res.add(new SimpleImmutableEntry<>(lemmaId, flexionIdx));
+        }
       }
     }
     return res;
-  }
-
-  private int getFlexionId(int[] lemma, String query) {
-    for (int i = 0; i < lemma.length; i += 2) {
-      if (allFlexionStrings[lemma[i]].equals(query)) {
-        return i;
-      }
-    }
-    return -1;
   }
 }

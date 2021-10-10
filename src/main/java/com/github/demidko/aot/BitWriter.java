@@ -7,7 +7,7 @@ import java.util.BitSet;
 /**
  * Класс предназначен для побитовой записи в примитивы
  */
-public class BitWriter {
+class BitWriter {
 
   private final BitSet bs;
   private int pos = -1;

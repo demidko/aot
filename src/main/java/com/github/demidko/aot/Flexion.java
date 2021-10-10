@@ -7,7 +7,10 @@ import java.util.List;
 
 /**
  * Словоформа исходной леммы
+ *
+ * @deprecated лучше используйте современный API из {@link WordformMeaning}
  */
+@Deprecated
 public class Flexion {
 
   // оптимизация

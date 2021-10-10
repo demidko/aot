@@ -8,7 +8,6 @@ import static org.hamcrest.Matchers.hasItems;
 
 import java.io.IOException;
 import java.util.List;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 
@@ -17,7 +16,20 @@ class WordformMeaningTest {
   @Test
   void lookupForMeaningsTest() throws IOException {
     List<WordformMeaning> meanings = lookupForMeanings("замок");
-    assertThat(meanings.size(), equalTo(2));
+
+    for (WordformMeaning x : meanings) {
+      System.out.println(x.getLemma().getId() + " -> " + x + x.getMorphology());
+    }
+
+    /*
+     * замок может означать
+     * 1. замок-строение (увидел что? - средневековый замок)
+     * 2. замок-запор (увидел что? - замок на двери)
+     * 3. замок-строение (купил кого? - средневековый замок)
+     * 4. замок-замор (купил кого? - замок на дверь)
+     * 5. замок-промок (что случилось? - замок под дождем)
+     */
+    assertThat(meanings.size(), equalTo(5));
 
     assertThat(
       meanings.get(0)
@@ -27,7 +39,7 @@ class WordformMeaningTest {
     );
 
     assertThat(
-      meanings.get(1)
+      meanings.get(4)
         .getLemma()
         .toString(),
       equalTo("замокнуть")
@@ -51,7 +63,7 @@ class WordformMeaningTest {
 
     // а вот если для двух смыслов отличается хотя бы одна словоформа или хотя бы одна морфология, то словарь их разделит
     assertThat(
-      meanings.get(1)
+      meanings.get(4)
         .getTransformations()
         .stream()
         .map(WordformMeaning::toString)

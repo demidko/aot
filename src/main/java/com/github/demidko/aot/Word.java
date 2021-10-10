@@ -10,7 +10,10 @@ import java.util.function.Predicate;
 /**
  * Морфологические данные смысла слова (их, и соответственно объектов Word, может быть несколько, как зАмок-строение,
  * зАмок-запор и замОк-промок)
+ *
+ * @deprecated лучше используйте API {@link WordformMeaning}
  */
+@Deprecated
 public class Word {
 
   private final List<Flexion> flexions;

@@ -71,9 +71,8 @@ public class WordformMeaning {
    * @return Варианты трансформации словоформы по правилам русского языка, всевозможные склонения, спряжения и т. д.
    */
   public List<WordformMeaning> getTransformations() {
-    int size = dictionary.fexionsSize(lemmaId);
-    WordformMeaning[] res = new WordformMeaning[size];
-    for (int i = 0; i < size; ++i) {
+    WordformMeaning[] res = new WordformMeaning[dictionary.fexionsSize(lemmaId)];
+    for (int i = 0; i < res.length; ++i) {
       res[i] = new WordformMeaning(lemmaId, i);
     }
     return asList(res);
