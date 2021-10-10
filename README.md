@@ -29,7 +29,6 @@ import static java.lang.System.out;
 import static com.github.demidko.aot.WordformMeaning.lookupForMeanings;
 
 class Example {
-
   public static void main(String[] args) throws IOException {
 
     var meanings = lookupForMeanings("люди");
