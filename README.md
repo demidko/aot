@@ -25,11 +25,8 @@ Java библиотека для быстрого (!) получения лем�
 
 ```java
 import java.io.IOException;
-
 import static java.lang.System.out;
 import static com.github.demidko.aot.WordformMeaning.lookupForMeanings;
-
-import java.io.IOException;
 
 class Example {
 
