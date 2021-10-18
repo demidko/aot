@@ -60,7 +60,7 @@ public class WordformMeaning {
    * @param lemmaId             Идентификатор леммы
    * @param transformationIndex Индекс трансформации леммы
    */
-  WordformMeaning(int lemmaId, int transformationIndex) {
+  private WordformMeaning(int lemmaId, int transformationIndex) {
     this.lemmaId = lemmaId;
     this.transformationIndex = transformationIndex;
   }
