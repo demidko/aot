@@ -5,4 +5,5 @@
 build
 .idea
 .DS_Store
+AotBinary
 

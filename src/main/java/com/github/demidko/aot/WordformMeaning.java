@@ -1,13 +1,22 @@
 package com.github.demidko.aot;
 
+import static com.github.demidko.aot.ByteBlock.readBlockFrom;
 import static com.github.demidko.aot.PartOfSpeech.partOfSpeech;
+import static com.github.demidko.aot.Reader.readLemmas;
+import static com.github.demidko.aot.Reader.readMorph;
+import static com.github.demidko.aot.Reader.readRefs;
+import static com.github.demidko.aot.Reader.readStrings;
 import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
 import static java.util.Objects.hash;
 
+import java.io.DataInputStream;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map.Entry;
+import java.util.Map;
+import java.util.zip.GZIPInputStream;
 
 /**
  * Словоформа одного определенного смысла. Зачем нужна эта абстракция вместо простого слова? Например, у слова "замок"
@@ -18,31 +27,92 @@ import java.util.Map.Entry;
  */
 public class WordformMeaning {
 
-  /**
-   * Словарь морфологии, низкоуровневый API. При вызове из методов экземпляра всегда инициализирован. При вызове из
-   * статических методов, нужно использовать {@link WordformMeaning#getDictionary()}.
-   */
-  private static HashDictionary dictionary;
+
+  private static final MorphologyTag[][] allMorphologyTags;
+  private static final String[] allFlexionStrings;
+  private static final int[][] lemmas;
+  private static final Map<Integer, int[]> refs;
 
   /**
-   * Идентификатор леммы в {@link HashDictionary#getFlexionString(int, int)}(первый параметр)
+   * Идентификатор леммы
    */
   private final int lemmaId;
 
   /**
-   * Индекс трансформации леммы в {@link HashDictionary#getFlexionString(int, int)}(второй параметр)
+   * Индекс трансформации леммы
    */
-  private final int flexionIndex;
+  private final int transformationIndex;
+
+  static {
+    try (DataInputStream file =
+      new DataInputStream(new GZIPInputStream(WordformMeaning.class.getResourceAsStream("/mrd.gz")))
+    ) {
+      allMorphologyTags = readMorph(readBlockFrom(file));
+      allFlexionStrings = readStrings(readBlockFrom(file));
+      lemmas = readLemmas(readBlockFrom(file));
+      refs = readRefs(readBlockFrom(file));
+    } catch (IOException e) {
+      throw new UncheckedIOException(e);
+    }
+  }
 
   /**
-   * @param lemmaId      Идентификатор леммы в {@link HashDictionary#getFlexionString(int, int)}(первый параметр)
-   * @param flexionIndex Индекс трансформации леммы в {@link HashDictionary#getFlexionString(int, int)}(второй
-   *                     параметр)
+   * @param lemmaId             Идентификатор леммы
+   * @param transformationIndex Индекс трансформации леммы
    */
-  private WordformMeaning(int lemmaId, int flexionIndex) {
+  WordformMeaning(int lemmaId, int transformationIndex) {
     this.lemmaId = lemmaId;
-    this.flexionIndex = flexionIndex;
+    this.transformationIndex = transformationIndex;
   }
+
+  private static int getTransformationsSize(int lemmaId) {
+    return lemmas[lemmaId].length / 2;
+  }
+
+  private static String getTransformationString(int lemmaId, int transformationIndex) {
+    return allFlexionStrings[lemmas[lemmaId][transformationIndex * 2]];
+  }
+
+  private static List<MorphologyTag> getTransformationMorphology(int lemmaId, int transformationIndex) {
+    return asList(allMorphologyTags[lemmas[lemmaId][transformationIndex * 2 + 1]]);
+  }
+
+  /**
+   * Метод ищет все возможные значения слова
+   *
+   * @param w слово в любой форме
+   * @return список смыслов включая омонимии
+   */
+  public static List<WordformMeaning> lookupForMeanings(String w) throws IOException {
+    w = w.toLowerCase().replace('ё', 'е');
+    int[] ids = refs.get(w.hashCode());
+    if (ids == null) {
+      return emptyList();
+    }
+    List<WordformMeaning> meanings = new ArrayList<>();
+    for (int lemmaId : ids) {
+      for (int flexionIdx = 0; flexionIdx < getTransformationsSize(lemmaId); ++flexionIdx) {
+        if (getTransformationString(lemmaId, flexionIdx).equals(w)) {
+          meanings.add(new WordformMeaning(lemmaId, flexionIdx));
+        }
+      }
+    }
+    return meanings;
+  }
+
+  /**
+   * Метод для получения словоформы по ее уникальному идентификатору
+   *
+   * @param id идентификатор полученный ранее
+   * @return словоформ смысла
+   */
+  public static WordformMeaning lookupForMeaning(long id) throws IOException {
+    BitReader reader = new BitReader(id);
+    int lemmaId = reader.readInt();
+    int flexionIndex = reader.readInt();
+    return new WordformMeaning(lemmaId, flexionIndex);
+  }
+
 
   /**
    * @return Уникальный идентификатор, по которому можно восстановить словоформу, даже после перезапуска приложения.
@@ -52,7 +122,7 @@ public class WordformMeaning {
   public long getId() {
     BitWriter w = new BitWriter();
     w.writeInt(lemmaId);
-    w.writeInt(flexionIndex);
+    w.writeInt(transformationIndex);
     return w.toLong();
   }
 
@@ -61,7 +131,7 @@ public class WordformMeaning {
    */
   @Override
   public String toString() {
-    return dictionary.getFlexionString(lemmaId, flexionIndex);
+    return getTransformationString(lemmaId, transformationIndex);
   }
 
   /**
@@ -76,14 +146,14 @@ public class WordformMeaning {
    * @return Морфологические характеристики для заданного слова, род, число, падеж, спряжение и т. д.
    */
   public List<MorphologyTag> getMorphology() {
-    return asList(dictionary.getFlexionTags(lemmaId, flexionIndex));
+    return getTransformationMorphology(lemmaId, transformationIndex);
   }
 
   /**
    * @return Варианты трансформации словоформы по правилам русского языка, всевозможные склонения, спряжения и т. д.
    */
   public List<WordformMeaning> getTransformations() {
-    WordformMeaning[] res = new WordformMeaning[dictionary.fexionsSize(lemmaId)];
+    WordformMeaning[] res = new WordformMeaning[getTransformationsSize(lemmaId)];
     for (int i = 0; i < res.length; ++i) {
       res[i] = new WordformMeaning(lemmaId, i);
     }
@@ -97,46 +167,6 @@ public class WordformMeaning {
     return partOfSpeech(getMorphology());
   }
 
-  /**
-   * Метод ищет все возможные значения слова
-   *
-   * @param w слово в любой форме
-   * @return список смыслов включая омонимии
-   */
-  public static List<WordformMeaning> lookupForMeanings(String w) throws IOException {
-    ArrayList<WordformMeaning> result = new ArrayList<>();
-    for (Entry<Integer, Integer> meaning : getDictionary().lookupForFlexions(w)) {
-      result.add(new WordformMeaning(meaning.getKey(), meaning.getValue()));
-    }
-    return result;
-  }
-
-  /**
-   * Метод для получения словоформы по ее уникальному идентификатору
-   *
-   * @param id идентификатор полученный ранее при помощи {@link WordformMeaning#getId()}
-   * @return словоформа смысла
-   */
-  public static WordformMeaning lookupForMeaning(long id) throws IOException {
-    BitReader reader = new BitReader(id);
-    int lemmaId = reader.readInt();
-    int flexionIndex = reader.readInt();
-    getDictionary();
-    return new WordformMeaning(lemmaId, flexionIndex);
-  }
-
-  /**
-   * Инициализация {@link WordformMeaning#dictionary}
-   *
-   * @return словарь лемм и морфологии (низкоуровневое API)
-   */
-  static HashDictionary getDictionary() throws IOException {
-    if (dictionary == null) {
-      dictionary = new HashDictionary();
-    }
-    return dictionary;
-  }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -146,11 +176,11 @@ public class WordformMeaning {
       return false;
     }
     WordformMeaning that = (WordformMeaning) o;
-    return lemmaId == that.lemmaId && flexionIndex == that.flexionIndex;
+    return lemmaId == that.lemmaId && transformationIndex == that.transformationIndex;
   }
 
   @Override
   public int hashCode() {
-    return hash(lemmaId, flexionIndex);
+    return hash(lemmaId, transformationIndex);
   }
 }

@@ -17,10 +17,6 @@ class WordformMeaningTest {
   void lookupForMeaningsTest() throws IOException {
     List<WordformMeaning> meanings = lookupForMeanings("замок");
 
-    for (WordformMeaning x : meanings) {
-      System.out.println(x.getLemma().getId() + " -> " + x + x.getMorphology());
-    }
-
     /*
      * замок может означать
      * 1. замок-строение (увидел что? - средневековый замок)
