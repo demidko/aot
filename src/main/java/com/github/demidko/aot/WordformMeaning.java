@@ -1,16 +1,15 @@
 package com.github.demidko.aot;
 
+import static com.github.demidko.aot.AotReader.readLemmas;
+import static com.github.demidko.aot.AotReader.readMorph;
+import static com.github.demidko.aot.AotReader.readRefs;
+import static com.github.demidko.aot.AotReader.readStrings;
 import static com.github.demidko.aot.ByteBlock.readBlockFrom;
 import static com.github.demidko.aot.PartOfSpeech.partOfSpeech;
-import static com.github.demidko.aot.Reader.readLemmas;
-import static com.github.demidko.aot.Reader.readMorph;
-import static com.github.demidko.aot.Reader.readRefs;
-import static com.github.demidko.aot.Reader.readStrings;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Objects.hash;
 
-import com.github.demidko.aot.bytecode.MorphologyTag;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.UncheckedIOException;

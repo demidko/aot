@@ -1,14 +1,13 @@
 package com.github.demidko.aot;
 
-import static com.github.demidko.aot.bytecode.Bytecode.isContent;
-import static com.github.demidko.aot.bytecode.MorphologyTag.values;
-import static com.github.demidko.aot.bytecode.Utils.safeByteToChar;
+import static com.github.demidko.aot.Bytecode.isContent;
+import static com.github.demidko.aot.MorphologyTag.values;
+import static com.github.demidko.aot.Utils.safeByteToChar;
 
-import com.github.demidko.aot.bytecode.MorphologyTag;
 import java.util.HashMap;
 import java.util.Map;
 
-class Reader {
+class AotReader {
 
   static MorphologyTag[][] readMorph(ByteBlock block) {
     MorphologyTag[][] result = new MorphologyTag[block.getLinesCount()][];
