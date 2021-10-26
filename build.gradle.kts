@@ -1,11 +1,13 @@
 repositories {
   mavenCentral()
+  maven("https://jitpack.io")
 }
 plugins {
   `java-library`
   `maven-publish`
 }
 dependencies {
+  implementation("com.github.demidko:aot-bytecode:2021.10.26")
   testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
   testImplementation("org.hamcrest:hamcrest:2.2")
 }
@@ -17,8 +19,6 @@ tasks.test {
 publishing {
   publications {
     create<MavenPublication>("aot") {
-      groupId = "com.github.demidko"
-      artifactId = "aot"
       from(components["java"])
     }
   }

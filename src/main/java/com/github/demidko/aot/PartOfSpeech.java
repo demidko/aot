@@ -1,5 +1,7 @@
 package com.github.demidko.aot;
 
+import com.github.demidko.aot.bytecode.MorphologyTag;
+
 /**
  * Часть речи, например существительное, глагол и т. д.
  */
@@ -170,23 +172,6 @@ public enum PartOfSpeech {
       default:
         return null;
     }
-  }
-
-  /**
-   * Метод извлекает часть речи из набора всей морфологической информации
-   *
-   * @param tags вся морфологическая информация
-   * @return извлеченная часть речи или null
-   */
-  @Deprecated
-  public static PartOfSpeech partOfSpeech(MorphologyTag[] tags) {
-    for (MorphologyTag tag : tags) {
-      PartOfSpeech maybe = partOfSpeech(tag);
-      if (maybe != null) {
-        return maybe;
-      }
-    }
-    return null;
   }
 
   /**

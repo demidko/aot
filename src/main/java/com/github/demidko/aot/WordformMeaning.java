@@ -10,6 +10,7 @@ import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Objects.hash;
 
+import com.github.demidko.aot.bytecode.MorphologyTag;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -26,7 +27,6 @@ import java.util.zip.GZIPInputStream;
  * идентичных словоформ разных смыслов, будет получен отрицательный результат.
  */
 public class WordformMeaning {
-
 
   private static final MorphologyTag[][] allMorphologyTags;
   private static final String[] allFlexionStrings;
