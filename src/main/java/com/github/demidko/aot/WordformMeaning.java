@@ -10,6 +10,8 @@ import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Objects.hash;
 
+import com.github.demidko.bits.BitReader;
+import com.github.demidko.bits.BitWriter;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -106,6 +108,7 @@ public class WordformMeaning {
    * @return словоформ смысла
    */
   public static WordformMeaning lookupForMeaning(long id) throws IOException {
+
     BitReader reader = new BitReader(id);
     int lemmaId = reader.readInt();
     int flexionIndex = reader.readInt();
