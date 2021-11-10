@@ -7,7 +7,7 @@ plugins {
   `maven-publish`
 }
 dependencies {
-  api("com.github.demidko:bits:2021.11.12")
+  api("com.github.demidko:bits:2021.11.14")
   api("com.github.demidko:aot-bytecode:2021.10.29")
   testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
   testImplementation("org.hamcrest:hamcrest:2.2")
