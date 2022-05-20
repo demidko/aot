@@ -197,7 +197,8 @@ public enum PartOfSpeech {
     /**
      * @return описание части речи
      */
-    public String getDescription() {
+    @Override
+    public String toString() {
         return description;
     }
 }
