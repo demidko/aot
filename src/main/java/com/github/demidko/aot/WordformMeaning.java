@@ -1,17 +1,8 @@
 package com.github.demidko.aot;
 
-import static com.github.demidko.aot.AotReader.readLemmas;
-import static com.github.demidko.aot.AotReader.readMorph;
-import static com.github.demidko.aot.AotReader.readRefs;
-import static com.github.demidko.aot.AotReader.readStrings;
-import static com.github.demidko.aot.ByteBlock.readBlockFrom;
-import static com.github.demidko.aot.PartOfSpeech.partOfSpeech;
-import static java.util.Arrays.asList;
-import static java.util.Collections.emptyList;
-import static java.util.Objects.hash;
-
 import com.github.demidko.bits.BitReader;
 import com.github.demidko.bits.BitWriter;
+
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -19,6 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.zip.GZIPInputStream;
+
+import static com.github.demidko.aot.AotReader.*;
+import static com.github.demidko.aot.ByteBlock.readBlockFrom;
+import static com.github.demidko.aot.PartOfSpeech.partOfSpeech;
+import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
+import static java.util.Objects.hash;
 
 /**
  * Словоформа одного определенного смысла. Зачем нужна эта абстракция вместо простого слова? Например, у слова "замок"
@@ -46,7 +44,7 @@ public class WordformMeaning {
 
   static {
     try (DataInputStream file =
-      new DataInputStream(new GZIPInputStream(WordformMeaning.class.getResourceAsStream("/mrd.gz")))
+           new DataInputStream(new GZIPInputStream(WordformMeaning.class.getResourceAsStream("/mrd.gz")))
     ) {
       allMorphologyTags = readMorph(readBlockFrom(file));
       allFlexionStrings = readStrings(readBlockFrom(file));
@@ -108,7 +106,6 @@ public class WordformMeaning {
    * @return словоформ смысла
    */
   public static WordformMeaning lookupForMeaning(long id) throws IOException {
-
     BitReader reader = new BitReader(id);
     int lemmaId = reader.readInt();
     int flexionIndex = reader.readInt();
@@ -122,10 +119,10 @@ public class WordformMeaning {
    * примитив long.
    */
   public long getId() {
-    BitWriter w = new BitWriter();
-    w.writeInt(lemmaId);
-    w.writeInt(transformationIndex);
-    return w.toLong();
+    return new BitWriter()
+      .writeInt(lemmaId)
+      .writeInt(transformationIndex)
+      .toLong();
   }
 
   /**
