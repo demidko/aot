@@ -56,15 +56,21 @@ public class WordformMeaning {
   }
 
   /**
+   * @return всевозможные "сырые" слова, известные библиотеке
+   */
+  public static List<String> getAllFlexions() {
+    return asList(allFlexionStrings);
+  }
+
+  /**
    * Метод обходит словарь библиотеки
    *
    * @return все возможные словоформы
    */
-  public List<WordformMeaning> listAllWordforms() {
+  public static List<WordformMeaning> listAllWordforms() {
     List<WordformMeaning> allWordforms = new ArrayList<>();
-    for (String x : allFlexionStrings) {
-      List<WordformMeaning> someWordforms = lookupForMeanings(x);
-      allWordforms.addAll(someWordforms);
+    for (String flexion : allFlexionStrings) {
+      allWordforms.addAll(lookupForMeanings(flexion));
     }
     return allWordforms;
   }
