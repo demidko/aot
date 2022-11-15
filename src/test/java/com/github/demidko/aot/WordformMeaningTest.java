@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
-
 class WordformMeaningTest {
 
   @Test
