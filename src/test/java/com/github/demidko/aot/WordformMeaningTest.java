@@ -72,9 +72,4 @@ class WordformMeaningTest {
       )
     );
   }
-
-  @Test
-  void testSomeRussianWords() throws IOException {
-    System.out.println(lookupForMeanings("ежи").get(0).getMorphology());
-  }
 }

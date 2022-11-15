@@ -12,7 +12,6 @@ import java.util.Map;
 import java.util.zip.GZIPInputStream;
 
 import static com.github.demidko.aot.AotReader.*;
-import static com.github.demidko.aot.ByteBlock.readBlockFrom;
 import static com.github.demidko.aot.PartOfSpeech.partOfSpeech;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
@@ -56,6 +55,20 @@ public class WordformMeaning {
   }
 
   /**
+   * Метод обходит словарь библиотеки
+   *
+   * @return все возможные словоформы
+   */
+  public List<WordformMeaning> listAllWordforms() {
+    List<WordformMeaning> allWordforms = new ArrayList<>();
+    for (String x : allFlexionStrings) {
+      List<WordformMeaning> someWordforms = lookupForMeanings(x);
+      allWordforms.addAll(someWordforms);
+    }
+    return allWordforms;
+  }
+
+  /**
    * @param lemmaId             Идентификатор леммы
    * @param transformationIndex Индекс трансформации леммы
    */
@@ -82,7 +95,7 @@ public class WordformMeaning {
    * @param w слово в любой форме
    * @return список смыслов включая омонимии
    */
-  public static List<WordformMeaning> lookupForMeanings(String w) throws IOException {
+  public static List<WordformMeaning> lookupForMeanings(String w) {
     w = w.toLowerCase().replace('ё', 'е');
     int[] ids = refs.get(w.hashCode());
     if (ids == null) {
@@ -111,7 +124,6 @@ public class WordformMeaning {
     int flexionIndex = reader.readInt();
     return new WordformMeaning(lemmaId, flexionIndex);
   }
-
 
   /**
    * @return Уникальный идентификатор, по которому можно восстановить словоформу, даже после перезапуска приложения.
