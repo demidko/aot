@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
-
 class WordformMeaningTest {
 
   @Test
@@ -72,5 +71,10 @@ class WordformMeaningTest {
         "замокшим", "замокших", "замокшие", "замокшими", "замокших"
       )
     );
+  }
+
+  @Test
+  void testSomeRussianWords() throws IOException {
+    System.out.println(lookupForMeanings("ежи").get(0).getMorphology());
   }
 }
