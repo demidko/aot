@@ -58,21 +58,8 @@ public class WordformMeaning {
   /**
    * @return всевозможные "сырые" слова, известные библиотеке
    */
-  public static List<String> getAllFlexions() {
+  public static List<String> listAllFlexions() {
     return asList(allFlexionStrings);
-  }
-
-  /**
-   * Метод обходит словарь библиотеки
-   *
-   * @return все возможные словоформы
-   */
-  public static List<WordformMeaning> listAllWordforms() {
-    List<WordformMeaning> allWordforms = new ArrayList<>();
-    for (String flexion : allFlexionStrings) {
-      allWordforms.addAll(lookupForMeanings(flexion));
-    }
-    return allWordforms;
   }
 
   /**
