@@ -12,7 +12,7 @@ plugins {
 }
 dependencies {
   api("com.github.demidko:bits:2022.08.06")
-  api("com.github.demidko:aot-bytecode:2021.10.29")
+  api("com.github.demidko:aot-bytecode:2025.01.10")
   testImplementation("org.junit.jupiter:junit-jupiter:5.9.0")
   testImplementation("org.hamcrest:hamcrest:2.2")
 }
