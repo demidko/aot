@@ -1,5 +1,7 @@
 package com.github.demidko.aot;
 
+import com.github.demidko.aot.morphology.MorphologyTag;
+
 /**
  * Часть речи, например существительное, глагол и т. д.
  */

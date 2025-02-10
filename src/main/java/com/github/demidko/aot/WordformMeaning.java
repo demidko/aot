@@ -1,5 +1,6 @@
 package com.github.demidko.aot;
 
+import com.github.demidko.aot.morphology.MorphologyTag;
 import com.github.demidko.bits.BitReader;
 import com.github.demidko.bits.BitWriter;
 

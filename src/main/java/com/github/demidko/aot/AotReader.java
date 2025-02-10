@@ -1,8 +1,10 @@
 package com.github.demidko.aot;
 
-import static com.github.demidko.aot.BytecodeUtils.isContent;
-import static com.github.demidko.aot.MorphologyTag.values;
-import static com.github.demidko.aot.BytecodeUtils.safeByteToChar;
+import com.github.demidko.aot.morphology.MorphologyTag;
+
+import static com.github.demidko.aot.bytecode.BytecodeUtils.isContent;
+import static com.github.demidko.aot.morphology.MorphologyTag.values;
+import static com.github.demidko.aot.bytecode.BytecodeUtils.safeByteToChar;
 
 import java.util.HashMap;
 import java.util.Map;
