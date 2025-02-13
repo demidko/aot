@@ -1,6 +1,7 @@
 package com.github.demidko.aot;
 
 import com.github.demidko.aot.morphology.MorphologyTag;
+import com.github.demidko.aot.morphology.PartOfSpeech;
 import com.github.demidko.bits.BitReader;
 import com.github.demidko.bits.BitWriter;
 
@@ -14,7 +15,7 @@ import java.util.zip.GZIPInputStream;
 
 import static com.github.demidko.aot.AotReader.*;
 import static com.github.demidko.aot.ByteBlock.readBlockFrom;
-import static com.github.demidko.aot.PartOfSpeech.partOfSpeech;
+import static com.github.demidko.aot.morphology.PartOfSpeech.partOfSpeech;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Objects.hash;
