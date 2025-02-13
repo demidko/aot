@@ -1,19 +1,19 @@
 package com.github.demidko.aot;
 
+import org.junit.jupiter.api.Test;
+
+import java.util.List;
+
 import static com.github.demidko.aot.WordformMeaning.lookupForMeanings;
 import static java.util.stream.Collectors.toList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItems;
 
-import java.io.IOException;
-import java.util.List;
-import org.junit.jupiter.api.Test;
-
 class WordformMeaningTest {
 
   @Test
-  void lookupForMeaningsTest() throws IOException {
+  void lookupForMeaningsTest() {
     List<WordformMeaning> meanings = lookupForMeanings("замок");
 
     /*
