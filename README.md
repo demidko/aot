@@ -74,5 +74,5 @@ class Example {
 были взяты исходные текстовые [mrd и tab файлы словарей](https://github.com/sokirko74/morph_dict/tree/master/data/Russian).
 Документация для них лежит [здесь](https://github.com/sokirko74/aot/blob/master/Docs/Morph_UNIX.txt). В нашей
 java-библиотеке, эти исходные словари [скомпилированы](https://github.com/demidko/aot-compiler) в бинарный формат,
-более удобный для быстрой загрузки в память и поиска. В качестве общего стандарта для библиотеки и компилятора, 
+более удобный для быстрой загрузки в память и поиска. В качестве общего стандарта для библиотеки и компилятора 
 используется [aot-bytecode](https://github.com/demidko/aot-bytecode).
