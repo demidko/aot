@@ -1,7 +1,3 @@
-tasks.withType<JavaCompile> {
-    options.encoding = "UTF-8"
-}
-
 repositories {
   mavenCentral()
   maven("https://jitpack.io")
@@ -15,6 +11,9 @@ dependencies {
   api("com.github.demidko:aot-bytecode:2025.02.15")
   testImplementation("org.junit.jupiter:junit-jupiter:5.9.0")
   testImplementation("org.hamcrest:hamcrest:2.2")
+}
+tasks.withType<JavaCompile> {
+  options.encoding = "UTF-8"
 }
 tasks.test {
   minHeapSize = "1024m"
