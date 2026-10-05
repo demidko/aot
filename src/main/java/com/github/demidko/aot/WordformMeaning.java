@@ -42,7 +42,7 @@ public class WordformMeaning {
 
   static {
     try (DataInputStream file =
-           new DataInputStream(new GZIPInputStream(WordformMeaning.class.getResourceAsStream("/mrd.gz")))
+           new DataInputStream(new GZIPInputStream(WordformMeaning.class.getResourceAsStream("/mrd.gz"), 65536))
     ) {
       allMorphologyTags = readMorph(readBlockFrom(file));
       allFlexionStrings = readStrings(readBlockFrom(file));

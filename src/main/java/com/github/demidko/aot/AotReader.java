@@ -29,17 +29,22 @@ class AotReader {
 
   static String[] readStrings(ByteBlock block) {
     String[] result = new String[block.getLinesCount()];
+    // String copies this range; reuse only the temporary decoding storage.
+    char[] buf = new char[32];
     for (int i = 0, pos = 0; i < block.getLinesCount(); ++i) {
       int to = pos;
       while (isContent(block.getBytes()[to])) {
         ++to;
       }
-      char[] buf = new char[to - pos];
-      for (int j = 0; j < buf.length; ++j, ++pos) {
+      int length = to - pos;
+      if (buf.length < length) {
+        buf = new char[length];
+      }
+      for (int j = 0; j < length; ++j, ++pos) {
         buf[j] = safeByteToChar(block.getBytes()[pos]);
       }
       ++pos;
-      result[i] = new String(buf);
+      result[i] = new String(buf, 0, length);
     }
     return result;
   }

@@ -16,6 +16,14 @@ class AotReaderTest {
     assertArrayEquals(new String[]{"", "я-0ё"}, AotReader.readStrings(block(2,
         new byte[]{100, (byte)255, 45, 48, (byte)184, 100})));
   }
+  @Test void stringsKeepTheirContentsAcrossScratchBufferGrowthAndReuse() throws Exception {
+    String[] expected = {"я".repeat(40), "кот", "", "е".repeat(60), "кот"};
+    String wire = String.join("d", expected) + "d";
+    String[] actual = AotReader.readStrings(block(expected.length,
+        wire.getBytes(java.nio.charset.Charset.forName("windows-1251"))));
+    assertArrayEquals(expected, actual);
+    assertNotSame(actual[1], actual[4]);
+  }
   @Test void morphologyKeepsOrderAndDuplicates() throws Exception {
     assertArrayEquals(new Object[]{new com.github.demidko.aot.morphology.MorphologyTag[]{Noun, Genitive, Noun}, new com.github.demidko.aot.morphology.MorphologyTag[0]},
         AotReader.readMorph(block(2, new byte[]{(byte)Noun.ordinal(), (byte)Genitive.ordinal(), (byte)Noun.ordinal(), 100, 100})));
