@@ -1,0 +1,8 @@
+avalanche=false word=елка probes=20
+avalanche=false word=стали probes=2
+avalanche=false word=несуществующееслово123 probes=3
+avalanche=false records=3034914 slots=4194304 mean_probes=3.105 p99_probes=16 max_probes=63
+avalanche=true word=елка probes=1
+avalanche=true word=стали probes=7
+avalanche=true word=несуществующееслово123 probes=3
+avalanche=true records=3034914 slots=4194304 mean_probes=2.308 p99_probes=18 max_probes=190

@@ -1,0 +1,1 @@
+first_lookup_ms=859.734 thread_allocated_bytes=609260448 retained_heap_bytes=313656072 meanings=5

@@ -2,15 +2,12 @@ package com.github.demidko.aot;
 
 import com.github.demidko.aot.morphology.MorphologyTag;
 import com.github.demidko.aot.morphology.PartOfSpeech;
-import com.github.demidko.bits.BitReader;
-import com.github.demidko.bits.BitWriter;
 
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.zip.GZIPInputStream;
 
 import static com.github.demidko.aot.AotReader.*;
@@ -18,7 +15,6 @@ import static com.github.demidko.aot.ByteBlock.readBlockFrom;
 import static com.github.demidko.aot.morphology.PartOfSpeech.partOfSpeech;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
-import static java.util.Objects.hash;
 
 /**
  * Словоформа одного определенного смысла. Зачем нужна эта абстракция вместо простого слова? Например, у слова "замок"
@@ -32,7 +28,7 @@ public class WordformMeaning {
   private static final MorphologyTag[][] allMorphologyTags;
   private static final String[] allFlexionStrings;
   private static final int[][] lemmas;
-  private static final Map<Integer, int[]> refs;
+  private static final WordformReferences refs;
 
   /**
    * Идентификатор леммы
@@ -93,14 +89,19 @@ public class WordformMeaning {
    */
   public static List<WordformMeaning> lookupForMeanings(String w) {
     w = w.toLowerCase().replace('ё', 'е');
-    int[] ids = refs.get(w.hashCode());
-    if (ids == null) {
+    int hash = w.hashCode();
+    int offset = refs.find(hash);
+    if (offset < 0) {
       return emptyList();
     }
     List<WordformMeaning> meanings = new ArrayList<>();
-    for (int lemmaId : ids) {
+    for (int i = 0, size = refs.size(offset); i < size; i++) {
+      int lemmaId = refs.lemmaId(offset, i);
       for (int flexionIdx = 0; flexionIdx < getTransformationsSize(lemmaId); ++flexionIdx) {
-        if (getTransformationString(lemmaId, flexionIdx).equals(w)) {
+        // String caches its own hash; equality still rejects hash collisions.
+        // Read the current string so edits through listAllFlexions remain visible.
+        String candidate = getTransformationString(lemmaId, flexionIdx);
+        if (candidate.hashCode() == hash && candidate.equals(w)) {
           meanings.add(new WordformMeaning(lemmaId, flexionIdx));
         }
       }
@@ -115,22 +116,16 @@ public class WordformMeaning {
    * @return словоформ смысла
    */
   public static WordformMeaning lookupForMeaning(long id) throws IOException {
-    BitReader reader = new BitReader(id);
-    int lemmaId = reader.readInt();
-    int flexionIndex = reader.readInt();
-    return new WordformMeaning(lemmaId, flexionIndex);
+    return new WordformMeaning((int) id, (int) (id >>> 32));
   }
 
   /**
    * @return Уникальный идентификатор, по которому можно восстановить словоформу, даже после перезапуска приложения.
-   * Идентификатор состоит из 48 бит (32 бита индекс леммы, 16 бит смещение трансформации) записанных по порядку в
+   * Идентификатор состоит из 64 бит (32 бита индекс леммы, 32 бита смещение трансформации) записанных по порядку в
    * примитив long.
    */
   public long getId() {
-    return new BitWriter()
-      .writeInt(lemmaId)
-      .writeInt(transformationIndex)
-      .toLong();
+    return (lemmaId & 0xffffffffL) | ((long) transformationIndex << 32);
   }
 
   /**
@@ -188,6 +183,6 @@ public class WordformMeaning {
 
   @Override
   public int hashCode() {
-    return hash(lemmaId, transformationIndex);
+    return 31 * (31 + lemmaId) + transformationIndex;
   }
 }

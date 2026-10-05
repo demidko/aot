@@ -1,0 +1,33 @@
+Production: f1cf1b2f2004fff4dd0a6f05344e760263d900b8
+Characterization: 4f9fd6ea0c377f2e5f79a9c08fcb6431e14fe5b2
+Temurin 21.0.12.1, Linux x86_64, AMD EPYC 9V74, 5 exposed vCPUs
+Cold JVM: -Xms1g -Xmx1g; dictionary digest/heap profile: -Xmx2g
+words=3039129 analyses=5017012 lemmas=174628 transformations=5017012 sha256=1cb85ee3c89098b4419750230bdf2c9fe74798ea383d56bfc7c77933c2eb984a
+first_lookup_ms=991.605 thread_allocated_bytes=852510368 retained_heap_bytes=494443440 meanings=5
+first_lookup_ms=989.499 thread_allocated_bytes=852510368 retained_heap_bytes=494383552 meanings=5
+first_lookup_ms=1023.554 thread_allocated_bytes=852510368 retained_heap_bytes=494416904 meanings=5
+first_lookup_ms=960.484 thread_allocated_bytes=852510368 retained_heap_bytes=494433768 meanings=5
+first_lookup_ms=964.844 thread_allocated_bytes=852510368 retained_heap_bytes=494506464 meanings=5
+Retained class histogram, top 20:
+ num     #instances         #bytes  class name (module)
+-------------------------------------------------------
+   1:       3050097      127652952  [B (java.base@21.0.12.1)
+   2:       3210567      115879768  [I (java.base@21.0.12.1)
+   3:       3036328       97162496  java.util.HashMap$Node (java.base@21.0.12.1)
+   4:       3049980       73199520  java.lang.String (java.base@21.0.12.1)
+   5:       3035199       48563184  java.lang.Integer (java.base@21.0.12.1)
+   6:           336       16808096  [Ljava.util.HashMap$Node; (java.base@21.0.12.1)
+   7:           355       12166032  [Ljava.lang.String; (java.base@21.0.12.1)
+   8:             2         698584  [[I (java.base@21.0.12.1)
+   9:          2098         611696  [Ljdk.internal.vm.FillerElement; (java.base@21.0.12.1)
+  10:          2149         262352  java.lang.Class (java.base@21.0.12.1)
+  11:          1964         170288  [Ljava.lang.Object; (java.base@21.0.12.1)
+  12:          2971         157720  [Lcom.github.demidko.aot.morphology.MorphologyTag;
+  13:           221          56952  [C (java.base@21.0.12.1)
+  14:          1772          56704  java.util.concurrent.ConcurrentHashMap$Node (java.base@21.0.12.1)
+  15:           640          56320  java.lang.reflect.Method (java.base@21.0.12.1)
+  16:            48          27392  [Ljava.util.concurrent.ConcurrentHashMap$Node; (java.base@21.0.12.1)
+  17:           448          21504  java.lang.invoke.MemberName (java.base@21.0.12.1)
+  18:           228          17328  [Ljava.lang.ref.SoftReference; (java.base@21.0.12.1)
+  19:           534          17088  jdk.internal.util.WeakReferenceKey (java.base@21.0.12.1)
+  20:           353          16944  java.util.HashMap (java.base@21.0.12.1)
