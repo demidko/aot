@@ -6,12 +6,10 @@ import static com.github.demidko.aot.bytecode.BytecodeUtils.isContent;
 import static com.github.demidko.aot.morphology.MorphologyTag.values;
 import static com.github.demidko.aot.bytecode.BytecodeUtils.safeByteToChar;
 
-import java.util.HashMap;
-import java.util.Map;
-
 class AotReader {
 
   static MorphologyTag[][] readMorph(ByteBlock block) {
+    MorphologyTag[] tags = values();
     MorphologyTag[][] result = new MorphologyTag[block.getLinesCount()][];
     for (int i = 0, pos = 0; i < block.getLinesCount(); ++i) {
       int to = pos;
@@ -20,7 +18,7 @@ class AotReader {
       }
       MorphologyTag[] currentTags = result[i] = new MorphologyTag[to - pos];
       for (int j = 0; j < currentTags.length; ++j, ++pos) {
-        currentTags[j] = values()[block.getBytes()[pos]];
+        currentTags[j] = tags[block.getBytes()[pos]];
       }
       // !
       ++pos;
@@ -60,19 +58,8 @@ class AotReader {
     return result;
   }
 
-  static Map<Integer, int[]> readRefs(ByteBlock block) {
-    Map<Integer, int[]> result = new HashMap<>();
-    for (int i = 0, pos = 0; i < block.getLinesCount(); ++i) {
-      int wordHash = intFromByteArray(block.getBytes(), pos);
-      pos += 4;
-      int[] indexes = new int[intFromByteArray(block.getBytes(), pos)];
-      pos += 4;
-      for (int j = 0; j < indexes.length; ++j, pos += 4) {
-        indexes[j] = intFromByteArray(block.getBytes(), pos);
-      }
-      result.put(wordHash, indexes);
-    }
-    return result;
+  static WordformReferences readRefs(ByteBlock block) {
+    return new WordformReferences(block);
   }
 
   private static int intFromByteArray(byte[] arr, int from) {

@@ -1,0 +1,30 @@
+Final candidate dictionary digest and fresh-JVM measurements:
+words=3039129 analyses=5017012 lemmas=174628 transformations=5017012 sha256=1cb85ee3c89098b4419750230bdf2c9fe74798ea383d56bfc7c77933c2eb984a
+first_lookup_ms=924.349 thread_allocated_bytes=626037840 retained_heap_bytes=330368136 meanings=5
+first_lookup_ms=1001.876 thread_allocated_bytes=626037840 retained_heap_bytes=330336496 meanings=5
+first_lookup_ms=1007.524 thread_allocated_bytes=626037840 retained_heap_bytes=330344736 meanings=5
+first_lookup_ms=1002.401 thread_allocated_bytes=626037840 retained_heap_bytes=330450480 meanings=5
+first_lookup_ms=984.318 thread_allocated_bytes=626037840 retained_heap_bytes=330419976 meanings=5
+ num     #instances         #bytes  class name (module)
+-------------------------------------------------------
+   1:       3050097      164419208  [B (java.base@21.0.12.1)
+   2:       3049979       73199496  java.lang.String (java.base@21.0.12.1)
+   3:        175656       43000808  [I (java.base@21.0.12.1)
+   4:             8       33555800  [J (java.base@21.0.12.1)
+   5:           355       12166032  [Ljava.lang.String; (java.base@21.0.12.1)
+   6:             2         698584  [[I (java.base@21.0.12.1)
+   7:          1592         446872  [Ljdk.internal.vm.FillerElement; (java.base@21.0.12.1)
+   8:          2152         262688  java.lang.Class (java.base@21.0.12.1)
+   9:          1965         170328  [Ljava.lang.Object; (java.base@21.0.12.1)
+  10:          2971         157720  [Lcom.github.demidko.aot.morphology.MorphologyTag;
+  11:           221          56952  [C (java.base@21.0.12.1)
+  12:          1772          56704  java.util.concurrent.ConcurrentHashMap$Node (java.base@21.0.12.1)
+  13:           640          56320  java.lang.reflect.Method (java.base@21.0.12.1)
+  14:          1414          45248  java.util.HashMap$Node (java.base@21.0.12.1)
+  15:           335          30864  [Ljava.util.HashMap$Node; (java.base@21.0.12.1)
+  16:            48          27392  [Ljava.util.concurrent.ConcurrentHashMap$Node; (java.base@21.0.12.1)
+  17:           448          21504  java.lang.invoke.MemberName (java.base@21.0.12.1)
+  18:           228          17328  [Ljava.lang.ref.SoftReference; (java.base@21.0.12.1)
+  19:           535          17120  jdk.internal.util.WeakReferenceKey (java.base@21.0.12.1)
+  20:           352          16896  java.util.HashMap (java.base@21.0.12.1)
+javap -public WordformMeaning: identical to baseline.

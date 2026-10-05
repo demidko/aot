@@ -1,0 +1,31 @@
+Diagnostic evidence from original and candidate implementations.
+original
+implementation=file:/workspace/aot-production-baseline.jar java=21.0.12.1 vm=OpenJDK 64-Bit Server VM collectors=G1 Young Generation,G1 Concurrent GC,G1 Old Generation initial_heap_bytes=268435456 max_heap_bytes=2147483648
+words=3039129 analyses=5017012 lemmas=174628 transformations=5017012 sha256=1cb85ee3c89098b4419750230bdf2c9fe74798ea383d56bfc7c77933c2eb984a
+implementation=file:/workspace/aot-production-baseline.jar java=21.0.12.1 vm=OpenJDK 64-Bit Server VM collectors=G1 Young Generation,G1 Concurrent GC,G1 Old Generation initial_heap_bytes=268435456 max_heap_bytes=2147483648
+candidate
+words=3039129 analyses=5017012 lemmas=174628 transformations=5017012 sha256=1cb85ee3c89098b4419750230bdf2c9fe74798ea383d56bfc7c77933c2eb984a
+implementation=file:/workspace/aot/build/classes/java/main/ java=21.0.12.1 vm=OpenJDK 64-Bit Server VM collectors=G1 Young Generation,G1 Concurrent GC,G1 Old Generation initial_heap_bytes=268435456 max_heap_bytes=2147483648
+Alternating JAR cold runs: baseline
+first_lookup_ms=1137.284 thread_allocated_bytes=852521888 retained_heap_bytes=494527464 meanings=5
+implementation=file:/workspace/aot-production-baseline.jar java=21.0.12.1 vm=OpenJDK 64-Bit Server VM collectors=G1 Young Generation,G1 Concurrent GC,G1 Old Generation initial_heap_bytes=1073741824 max_heap_bytes=1073741824
+first_lookup_ms=1076.613 thread_allocated_bytes=852521888 retained_heap_bytes=494438464 meanings=5
+implementation=file:/workspace/aot-production-baseline.jar java=21.0.12.1 vm=OpenJDK 64-Bit Server VM collectors=G1 Young Generation,G1 Concurrent GC,G1 Old Generation initial_heap_bytes=1073741824 max_heap_bytes=1073741824
+first_lookup_ms=1266.839 thread_allocated_bytes=852521888 retained_heap_bytes=494528920 meanings=5
+implementation=file:/workspace/aot-production-baseline.jar java=21.0.12.1 vm=OpenJDK 64-Bit Server VM collectors=G1 Young Generation,G1 Concurrent GC,G1 Old Generation initial_heap_bytes=1073741824 max_heap_bytes=1073741824
+first_lookup_ms=1302.911 thread_allocated_bytes=852521888 retained_heap_bytes=494391440 meanings=5
+implementation=file:/workspace/aot-production-baseline.jar java=21.0.12.1 vm=OpenJDK 64-Bit Server VM collectors=G1 Young Generation,G1 Concurrent GC,G1 Old Generation initial_heap_bytes=1073741824 max_heap_bytes=1073741824
+first_lookup_ms=1120.616 thread_allocated_bytes=852521888 retained_heap_bytes=494471984 meanings=5
+implementation=file:/workspace/aot-production-baseline.jar java=21.0.12.1 vm=OpenJDK 64-Bit Server VM collectors=G1 Young Generation,G1 Concurrent GC,G1 Old Generation initial_heap_bytes=1073741824 max_heap_bytes=1073741824
+Alternating JAR cold runs: optimized
+first_lookup_ms=1129.340 thread_allocated_bytes=626049304 retained_heap_bytes=330399528 meanings=5
+implementation=file:/workspace/aot/build/libs/aot.jar java=21.0.12.1 vm=OpenJDK 64-Bit Server VM collectors=G1 Young Generation,G1 Concurrent GC,G1 Old Generation initial_heap_bytes=1073741824 max_heap_bytes=1073741824
+first_lookup_ms=1114.792 thread_allocated_bytes=626049304 retained_heap_bytes=330345024 meanings=5
+implementation=file:/workspace/aot/build/libs/aot.jar java=21.0.12.1 vm=OpenJDK 64-Bit Server VM collectors=G1 Young Generation,G1 Concurrent GC,G1 Old Generation initial_heap_bytes=1073741824 max_heap_bytes=1073741824
+first_lookup_ms=1240.653 thread_allocated_bytes=626049304 retained_heap_bytes=330336256 meanings=5
+implementation=file:/workspace/aot/build/libs/aot.jar java=21.0.12.1 vm=OpenJDK 64-Bit Server VM collectors=G1 Young Generation,G1 Concurrent GC,G1 Old Generation initial_heap_bytes=1073741824 max_heap_bytes=1073741824
+first_lookup_ms=1243.847 thread_allocated_bytes=626049304 retained_heap_bytes=330347904 meanings=5
+implementation=file:/workspace/aot/build/libs/aot.jar java=21.0.12.1 vm=OpenJDK 64-Bit Server VM collectors=G1 Young Generation,G1 Concurrent GC,G1 Old Generation initial_heap_bytes=1073741824 max_heap_bytes=1073741824
+first_lookup_ms=1153.960 thread_allocated_bytes=626049304 retained_heap_bytes=330341944 meanings=5
+implementation=file:/workspace/aot/build/libs/aot.jar java=21.0.12.1 vm=OpenJDK 64-Bit Server VM collectors=G1 Young Generation,G1 Concurrent GC,G1 Old Generation initial_heap_bytes=1073741824 max_heap_bytes=1073741824
+All review JMH configurations match: jvm, jdkVersion, vmName, vmVersion, jvmArgs, warmupIterations, warmupTime, measurementIterations, measurementTime, forks, threads, mode
